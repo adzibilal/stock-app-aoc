@@ -51,8 +51,7 @@ async function editItem(itemID) {
   // melakukan request ke server untuk mengubah data
   const { data, error } = await supabase
     .from('inventory')
-    .update({ name, stock, unit, price })
-    .eq('id', itemID)
+    .upsert({id: itemID, name, stock, unit, price })
     .select()
 
   if (error) {
@@ -70,6 +69,8 @@ async function editItem(itemID) {
     document.getElementById('stock' + itemID).value = ''
     document.getElementById('unit' + itemID).value = ''
     document.getElementById('price' + itemID).value = ''
+
+    getInventory()
   }
 }
 async function deleteInventory(id) {
