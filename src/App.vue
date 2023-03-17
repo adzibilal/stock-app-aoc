@@ -20,13 +20,16 @@ import { RouterView } from 'vue-router'
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="/inventory">Inventory</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link" href="/transaksi">Transaksi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/menu">Menu</a>
           </li>
         </ul>
       </div>
