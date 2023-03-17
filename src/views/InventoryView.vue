@@ -17,7 +17,10 @@ async function addItem() {
   const price = document.getElementById('price').value
   console.error(name, stock, unit, price)
   // melakukan request ke server untuk mengubah data
-  const { data, error } = await supabase.from('inventory').insert({ name, stock, unit, price }).select()
+  const { data, error } = await supabase
+    .from('inventory')
+    .insert({ name, stock, unit, price })
+    .select()
 
   if (error) {
     // handle error jika gagal
@@ -69,7 +72,20 @@ async function editItem(itemID) {
     document.getElementById('price' + itemID).value = ''
   }
 }
+async function deleteInventory(id) {
+  if (window.confirm('Yakin ingin hapus item ini?')) {
+    const { error } = await supabase.from('inventory').delete().eq('id', id)
 
+    if (error) {
+      console.error(error)
+    } else {
+      getInventory()
+    }
+  } else {
+    // User clicked Cancel
+    // Do nothing or perform some other action
+  }
+}
 onMounted(() => {
   getInventory()
 })
@@ -94,7 +110,7 @@ function filteredInventory() {
     >
       Tambah Inventory
     </button>
-    <br><br>
+    <br /><br />
     <div class="mb-3">
       <label for="search" class="form-label">Search</label>
       <input type="text" class="form-control" id="search" v-model="searchQuery" />
@@ -120,11 +136,14 @@ function filteredInventory() {
           <td>
             <button
               type="button"
-              class="btn btn-warning"
+              class="btn btn-sm btn-warning"
               data-bs-toggle="modal"
               :data-bs-target="'#modal' + item.id"
             >
               Edit
+            </button>
+            <button type="button" class="btn btn-sm btn-danger" @click="deleteInventory(item.id)">
+              Hapus
             </button>
           </td>
         </tr>
