@@ -29,7 +29,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 mb-3 mb-sm-0">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Transaksi</h5>
@@ -38,7 +38,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 mb-3 mb-sm-0">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Menu</h5>
