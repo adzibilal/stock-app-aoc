@@ -9,6 +9,36 @@ async function getInventory() {
   const { data } = await supabase.from('inventory').select()
   inventory.value = data
 }
+async function editItem(itemID) {
+  // mengambil nilai dari input field
+  const name = document.getElementById('name').value
+  const stock = document.getElementById('stock').value
+  const unit = document.getElementById('unit').value
+  const price = document.getElementById('price').value
+
+  // melakukan request ke server untuk mengubah data
+  const { error } = await supabase
+    .from('items')
+    .update({ name, stock, unit, price })
+    .eq('id', itemID)
+
+  if (error) {
+    // handle error jika gagal
+    console.error(error.message)
+  } else {
+    // handle response jika sukses
+    // console.error(data)
+
+    // menutup modal
+    document.getElementById('closemodal' + itemID).click()
+
+    // reset nilai form
+    document.getElementById('name').value = ''
+    document.getElementById('stock').value = ''
+    document.getElementById('unit').value = ''
+    document.getElementById('price').value = ''
+  }
+}
 
 onMounted(() => {
   getInventory()
@@ -30,13 +60,14 @@ function filteredInventory() {
       <label for="search" class="form-label">Search</label>
       <input type="text" class="form-control" id="search" v-model="searchQuery" />
     </div>
-    <table class="table">
+    <table class="table table-hover table-striped">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nama</th>
           <th scope="col">Stock</th>
           <th scope="col">Unit</th>
+          <th scope="col">Harga</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -46,6 +77,7 @@ function filteredInventory() {
           <td>{{ item.name }}</td>
           <td>{{ item.stock }}</td>
           <td>{{ item.unit }}</td>
+          <td>{{ item.price }}</td>
           <td>
             <button
               type="button"
@@ -81,10 +113,36 @@ function filteredInventory() {
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="modal-body">
+            <form @submit.prevent="editItem(item.id)">
+              <div class="mb-3">
+                <label for="name" class="form-label">Nama Stock</label>
+                <input type="text" class="form-control" id="name" :value="item.name" />
+              </div>
+              <div class="mb-3">
+                <label for="stock" class="form-label">Stock</label>
+                <input type="text" class="form-control" id="stock" :value="item.stock" />
+              </div>
+              <div class="mb-3">
+                <label for="unit" class="form-label">Unit</label>
+                <input type="text" class="form-control" id="unit" :value="item.unit" />
+              </div>
+              <div class="mb-3">
+                <label for="price" class="form-label">Harga</label>
+                <input type="number" class="form-control" id="price" :value="item.price" />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  :id="'closemodal' + item.id"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
