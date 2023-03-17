@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 
 const inventory = ref([])
+const searchQuery = ref('')
 
 async function getInventory() {
   const { data } = await supabase.from('inventory').select()
@@ -12,13 +13,23 @@ async function getInventory() {
 onMounted(() => {
   getInventory()
 })
+
+function filteredInventory() {
+  return inventory.value.filter((item) => {
+    return item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  })
+}
 </script>
 
 <template>
   <div class="container">
-    <br><br>
+    <br /><br />
     <h1>Inventory Stok Bahan Baku</h1>
-    <br>
+    <br />
+    <div class="mb-3">
+      <label for="search" class="form-label">Search</label>
+      <input type="text" class="form-control" id="search" v-model="searchQuery" />
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -30,7 +41,7 @@ onMounted(() => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in inventory" :key="item.id">
+        <tr v-for="(item, index) in filteredInventory()" :key="item.id">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ item.name }}</td>
           <td>{{ item.stock }}</td>
