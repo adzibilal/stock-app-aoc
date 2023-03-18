@@ -15,3 +15,27 @@
 .navbar-toggler {
   background-color: white;
 }
+
+.item-menu {
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+.item-menu .sub-title {
+  font-size: 12px;
+  margin: 0;
+}
+
+.item-resep {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-resep .desc{
+  color: red;
+}
+
+.undis{
+  display: none !important;
+}

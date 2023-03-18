@@ -43,7 +43,7 @@ onMounted(() => {
           <div class="card-body">
             <h5 class="card-title">Menu</h5>
             <p class="card-text">Kelola Resep Menu</p>
-            <a href="#" class="btn btn-primary">Kelola</a>
+            <a href="/menu" class="btn btn-primary">Kelola</a>
           </div>
         </div>
       </div>
